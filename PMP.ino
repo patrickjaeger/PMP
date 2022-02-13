@@ -7,10 +7,27 @@ Adafruit_NeoPixel paPixels(3, 12, NEO_GRB + NEO_KHZ800);
 #define TESTING -7
 
 int state = 0;
+#define STANDBY 0
+#define CALIBRATED 1
+#define OPEN 2
+#define READY 3
+#define DONE 4
+
 
 // unsigned long execTime = 0;
 // unsigned long activationTime = 0;
 // int pressureReportInterval = 100;
+
+
+int calibratePressure() {
+  vent();
+  delay(1000);
+  int _atmosphericPressure = readPressure(1, 10);
+  closeAllValves();
+  Serial.println("Calibration complete. Atmospheric pressure:");
+  Serial.println(_atmosphericPressure);
+  return(_atmosphericPressure);
+}
 
 void togglePump(int _button) {
   static unsigned long execTime = 0;
@@ -146,10 +163,3 @@ void justPump() {
   // closeAllValves();
 }
 
-int calibratePressure() {
-  vent();
-  delay(1000);
-  int _atmosphericPressure = readPressure(1, 10);
-  closeAllValves();
-  return(_atmosphericPressure);
-}

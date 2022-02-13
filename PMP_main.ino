@@ -1,8 +1,3 @@
-
-bool calibrated = false;
-int atmosphericPressure;
-bool streamPressure = false;
-
 void setup() {
   initializePins();
   // pixels.begin();
@@ -12,21 +7,18 @@ void setup() {
 
 }
 
-int calibratePressure() {
-  int atmosphericPressure = calibratePressure();
-  Serial.println("Calibration complete. Atmospheric pressure:");
-  Serial.println(atmosphericPressure);
-  return(atmosphericPressure);
-}
-
 void loop() {
-  // Calibrate atmospheric pressure
-  if (!calibrated) {
 
-    atmosphericPressure = calibratePressure();
-    Serial.println("Calibration complete. Atmospheric pressure:");
-    Serial.println(atmosphericPressure);
-    calibrated = true;
+  
+  // Calibrate atmospheric pressure
+  if (readBtn(BLUE) && state == STANDBY) {
+    int atmosphericPressure = calibratePressure();
+    delay(1000);
+    state = CALIBRATED;
+  }
+
+  if (readBtn(BLUE) && state == CALIBRATED) {
+
   }
 
 

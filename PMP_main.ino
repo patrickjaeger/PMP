@@ -32,7 +32,10 @@ void loop() {
     state = READY;
   }
 
-
+  // Pump
+  if (readBtn(RED) && state == READY) {
+    
+  }
 
 
 

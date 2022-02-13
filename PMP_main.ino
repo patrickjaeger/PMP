@@ -1,3 +1,5 @@
+unsigned long openTime = 0;
+
 void setup() {
   initializePins();
   // pixels.begin();
@@ -9,7 +11,6 @@ void setup() {
 
 void loop() {
 
-  
   // Calibrate atmospheric pressure
   if (readBtn(BLUE) && state == STANDBY) {
     int atmosphericPressure = calibratePressure();
@@ -17,9 +18,23 @@ void loop() {
     state = CALIBRATED;
   }
 
+  // Open valves to connect plate
   if (readBtn(BLUE) && state == CALIBRATED) {
-
+    switchOffPumps();
+    vent();
+    state = OPEN;
+    openTime = millis();
+  } else if (readBtn(BLUE) && state == OPEN && (millis() - openTime > 500)) {
+    closeAllValves();
+    state = READY;
+  } else if (state == OPEN && millis() - openTime > 30000) {
+    closeAllValves();
+    state = READY;
   }
+
+
+
+
 
 
 

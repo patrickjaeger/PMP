@@ -120,6 +120,7 @@ void activateVenting() {
     
   setPixelsColor(0, 30, 0);
   paPixels.show();
+  
 }
 
 void pumpToPressure(int targetPressure) {

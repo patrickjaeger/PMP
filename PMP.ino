@@ -67,6 +67,11 @@ void setPixelsColor(uint8_t red = 0, uint8_t green = 0, uint8_t blue = 0) {
   }
 }
 
+void setLEDs(int R, int G, int B) {
+  setPixelsColor(R, G, B);
+  paPixels.show();
+}
+
 void flashLEDs() {
   // Flash neopixel LEDs for 2secs and send a serial comment
   // Serial.println("Executing test protocol 1"); 
@@ -114,13 +119,49 @@ void triggerWithLongPress(int button, int time, void (*fun)()) {
   }
 }
 
+bool longPress(int button, int time) {
+  // Trigger a function with a long press of a button
+  // button: color of button (RED or BLUE)
+  // time: minimum time button has to be pressed to trigger in milliseconds
+  static int last_state = 0;
+  static unsigned long depress_timepoint;
+  static bool longPressActive = false;
+
+  if (readBtn(button)) {
+
+		if (last_state == 0) {
+			last_state = 1;
+			depress_timepoint = millis();
+		}
+
+		if ((millis() - depress_timepoint > time) && (longPressActive == false)) {
+			longPressActive = true;
+
+      // Start protocol
+      return(true);
+      // End protocol
+		}
+
+	} else {
+    if (last_state == 1) {
+      return(false);
+			if (longPressActive == true) {
+				longPressActive = false;
+			}
+
+			last_state = false;
+
+		}
+  }
+}
+
 void activateVenting() {
 	switchOffPumps();
   vent();
     
   setPixelsColor(0, 30, 0);
   paPixels.show();
-  
+
 }
 
 void pumpToPressure(int targetPressure) {
@@ -133,16 +174,18 @@ void pumpToPressure(int targetPressure) {
   int currentPressure = 0;
 
   // Set LEDs to red
-  setPixelsColor(50, 0, 0);
-  paPixels.show();
+  // setPixelsColor(50, 0, 0);
+  // paPixels.show();
 
   // Pump until target pressure is reached or 5 sec have passed
   switchOnPump(2, 50);
-  switchOffPump(2);
+  switchOffPump(1);
   blow();
+  startTime = millis();
   while (currentPressure < targetPressure && elapsedTime < 5000) {
     currentPressure = readPressure(1, 3);
     elapsedTime = millis() - startTime;
+    Serial.println(currentPressure);
   }
 
   // Switch of pumps and vent
@@ -150,8 +193,8 @@ void pumpToPressure(int targetPressure) {
   vent();
 
   // Set LEDs to blue
-  setPixelsColor(0, 0, 50);
-  paPixels.show();
+  // setPixelsColor(0, 0, 50);
+  // paPixels.show();
 }
 
 void justPump() {

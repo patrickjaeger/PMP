@@ -8,7 +8,7 @@
 2. Push the blue button to calibrate the atmosphric pressure; the LEDs will turn orange
 3. Push the blue button again to open all valves; the LEDs will turn yellow
     - Opening the valves prevents pressure build-up in the system while connecting tubes
-    - The valves become hot after prolonged dysengagement, therefore they are programmed to close automatically after 30 seconds
+    - The valves become hot after prolonged disengagement, therefore they are programmed to close automatically after 30 seconds
 4. Connect tube to the microplate and push the blue button again to close the valves; the LEDs will turn green
 5. Push the RED button to activate the pump
 

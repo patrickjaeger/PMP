@@ -1,4 +1,4 @@
-#PMP
+# PMP
 ## Set up programmable air
 1. Follow steps on https://github.com/Programmable-Air/Code
 2. Download PMP_main.ino and PMP.ino and put them in a folder called 'PMP'

@@ -1,7 +1,8 @@
 #PMP
 ## Set up programmable air
 1. Follow steps on https://github.com/Programmable-Air/Code
-2. Upload PMP code
+2. Download PMP_main.ino and PMP.ino and put them in a folder called 'PMP'
+3. Upload PMP code to arduino
 
 ## Use 
 1. Connect power to programmable-air; the LEDs will glow red

@@ -1,6 +1,7 @@
 int atmosphericPressure = 0;
 unsigned long openTime = 0;
 int targetPressure = 0;
+double pressureGain = 1.5;
 
 void setup() {
   initializePins();
@@ -34,24 +35,27 @@ void loop() {
     state = READY;
   }
 
-  // Pump
+  // Pump to specified pressure
   if (readBtn(RED) && state == READY) {
-    targetPressure = atmosphericPressure * 1.5;
+    targetPressure = atmosphericPressure * pressureGain;
     Serial.println(targetPressure);
     pumpToPressure(targetPressure);
     delay(1000);
-    state == DONE;
+    // state = DONE;
+    state = READY;
   }
 
-  if (readBtn(BLUE) && state == DONE) {
-    state = CALIBRATED;
-    delay(1000);
-  }
+  // Reset state to CALIBRATED
+  // if (longPress(BLUE, 1000)) {
+  //   state = CALIBRATED;
+  //   delay(1000);
+  // }
 
-  // Reset to standby
-  if (readBtn(RED) && state != READY) {
-    state = STANDBY;
-  }
+  // Reset state to STANDBY
+  // if (readBtn(RED) && state != READY) {
+  //   state = STANDBY;
+  //   delay(1000);
+  // }
 
   if (state == STANDBY) setLEDs(10, 0, 0);
   if (state == CALIBRATED) setLEDs(17, 5, 0);
